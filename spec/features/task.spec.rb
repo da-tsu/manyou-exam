@@ -9,7 +9,6 @@ RSpec.feature "タスク管理機能", type: :feature do
       click_on 'Log in'
       FactoryBot.create(:task)
       visit tasks_path
-      
       expect(page).to have_content '卍'
     end
   end
@@ -28,7 +27,6 @@ RSpec.feature "タスク管理機能", type: :feature do
 
         click_on '登録する'
         expect(page).to have_content "卍","卍～"
-  
       end
     end
   end
@@ -60,11 +58,10 @@ RSpec.feature "タスク管理機能", type: :feature do
       visit tasks_path
       task_list = all('#task_row')
       expect(task_list[0]).to have_content '★'
-      expect(task_list[1]).to have_content '☆' 
-      expect(task_list[2]).to have_content '卍' 
-  
+      expect(task_list[1]).to have_content '☆'
+      expect(task_list[2]).to have_content '卍'
     end
-  end 
+  end
 
   feature 'タスク一覧画面' do
     context '終了期限でソートするボタンを押した場合' do
@@ -81,8 +78,8 @@ RSpec.feature "タスク管理機能", type: :feature do
         click_on '終了期限でソートする'
         task_list = all('#task_row')
         expect(task_list[0]).to have_content '★'
-        expect(task_list[1]).to have_content '卍' 
-        expect(task_list[2]).to have_content '☆' 
+        expect(task_list[1]).to have_content '卍'
+        expect(task_list[2]).to have_content '☆'
       end
     end
   end
@@ -102,9 +99,32 @@ RSpec.feature "タスク管理機能", type: :feature do
         click_on '優先順位でソートする'
         task_list = all('#task_row')
         expect(task_list[0]).to have_content '☆'
-        expect(task_list[1]).to have_content '卍' 
-        expect(task_list[2]).to have_content '★' 
+        expect(task_list[1]).to have_content '卍'
+        expect(task_list[2]).to have_content '★'
       end
     end
   end
+
+  feature 'ラベルつきタスクの作成' do
+    context 'ラベルを作成してタスクを作成した場合' do
+      scenario 'ラベルを作成してタスクを作成' do
+        FactoryBot.create(:user)
+        visit new_session_path
+        fill_in 'Email', with: 'user@aaa.aaa'
+        fill_in 'Password', with: 'MyString'
+        click_on 'Log in'
+        FactoryBot.create(:label)
+        FactoryBot.create(:second_label)
+        FactoryBot.create(:third_label)
+        @task = FactoryBot.create(:task)
+        FactoryBot.create(:task_label)
+        visit task_path(@task)
+        task_list = all('#task_row')
+        expect(task_list[0]).to have_content '☆'
+        expect(task_list[1]).to have_content '卍'
+        expect(task_list[2]).to have_content '★'
+      end
+    end
+  end
+
 end

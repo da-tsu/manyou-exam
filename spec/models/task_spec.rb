@@ -43,4 +43,16 @@ RSpec.feature 'タスク管理機能', type: :model do
     end
   end
 
+  context 'タイトルとステータスとラベル検索' do
+    scenario '検索ワード : 未着手　:☆ ラベル : sample1 →　1件' do
+      FactoryBot.create(:user)
+      FactoryBot.create(:label)
+      FactoryBot.create(:second_label)
+      FactoryBot.create(:task)
+      FactoryBot.create(:second_task)
+      FactoryBot.create(:task_label)
+      expect(Task.search_status("0").search_title("☆").search_label("1").count).to eq 1
+    end
+  end
+
 end

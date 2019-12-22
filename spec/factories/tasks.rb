@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :task do
     title { '卍' }
-    content { '卍～' }    
+    content { '卍～' }
     created_at {"2019-12-04 04:32:13"}
     expiration {"2019-12-20"}
     status {"完了"}
@@ -28,6 +28,4 @@ FactoryBot.define do
     priority {"低"}
     user_id {User.last.id}
   end
-
-
 end
